@@ -26,6 +26,8 @@ pluginManagement {
     }
 }
 
+rootProject.name = 'pink-starter'
+
 include 'core'
 include 'swerve-lib'
 
