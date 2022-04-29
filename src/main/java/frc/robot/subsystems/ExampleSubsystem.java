@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ThePinkAlliance.core.math.Projectile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ExampleSubsystem extends SubsystemBase {

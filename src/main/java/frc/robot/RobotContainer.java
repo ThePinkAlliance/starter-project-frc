@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import com.ThePinkAlliance.core.joystick.Joystick;
+import com.ThePinkAlliance.core.joystick.Joystick.Axis;
+import com.ThePinkAlliance.core.joystick.Joystick.Buttons;
+import com.ThePinkAlliance.core.joystick.JoystickButton;
 import com.ThePinkAlliance.core.util.joystick.JoystickMap;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,7 +50,10 @@ public class RobotContainer {
     m_exampleSubsystem.setDefaultCommand(
       new RunCommand(
         () -> {
-          double left_y_axis = mainJS.getRawAxis(JoystickMap.LEFT_Y_AXIS);
+          double left_y_axis = mainJS
+            .getAxis(Axis.LEFT_Y)
+            .getSuppliedValue()
+            .get();
 
           SmartDashboard.putNumber("left_y_axis", left_y_axis);
         },
