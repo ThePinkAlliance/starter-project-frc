@@ -1,6 +1,6 @@
 [submodule "core"]
 	path = core
-	url = git@github.com:ThePinkAlliance/core.git
+	url = https://github.com/ThePinkAlliance/core.git
 [submodule "swerve-lib"]
 	path = swerve-lib
-	url = git@github.com:ThePinkAlliance/swerve-lib.git
+	url = https://github.com/ThePinkAlliance/swerve-lib.git
