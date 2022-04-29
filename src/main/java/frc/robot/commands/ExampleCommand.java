@@ -4,13 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import com.ThePinkAlliance.core.rev.RevNeo550;
+import com.ThePinkAlliance.core.rev.SparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ExampleSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class ExampleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final ExampleSubsystem m_subsystem;
+
+  RevNeo550 neo550 = new RevNeo550(1);
+  SparkMax max = new SparkMax(4, MotorType.kBrushless);
 
   /**
    * Creates a new ExampleCommand.
