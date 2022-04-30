@@ -5,17 +5,13 @@
 package frc.robot;
 
 import com.ThePinkAlliance.core.joystick.Joystick;
-import com.ThePinkAlliance.core.joystick.Joystick.Axis;
-import com.ThePinkAlliance.core.joystick.Joystick.Buttons;
-import com.ThePinkAlliance.core.joystick.JoystickButton;
-import com.ThePinkAlliance.core.util.joystick.JoystickMap;
+import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.Drive;
+import frc.robot.subsystems.Base;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,14 +21,25 @@ import frc.robot.subsystems.ExampleSubsystem;
  */
 public class RobotContainer {
 
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(
-    m_exampleSubsystem
-  );
-
   private final Joystick mainJS = new Joystick(0);
+
+  private JoystickAxis x = new JoystickAxis(mainJS, Joystick.Axis.LEFT_X)
+    .cubeAxis()
+    .deadband()
+    .limit(55);
+
+  private JoystickAxis y = new JoystickAxis(mainJS, Joystick.Axis.LEFT_Y)
+    .cubeAxis()
+    .deadband()
+    .limit(55);
+
+  private JoystickAxis rot = new JoystickAxis(mainJS, Joystick.Axis.RIGHT_X)
+    .cubeAxis()
+    .deadband()
+    .limit(55);
+
+  // The robot's subsystems and commands are defined here...
+  private final Base m_base = new Base();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,19 +54,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_exampleSubsystem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          double left_y_axis = mainJS
-            .getAxis(Axis.LEFT_Y)
-            .getSuppliedValue()
-            .get();
-
-          SmartDashboard.putNumber("left_y_axis", left_y_axis);
-        },
-        m_exampleSubsystem
-      )
-    );
+    m_base.setDefaultCommand(new Drive(m_base, x, y, rot));
   }
 
   /**
@@ -69,6 +64,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new InstantCommand();
   }
 }

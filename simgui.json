@@ -2,8 +2,10 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Base": "Subsystem",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro"
     }
   }
 }
