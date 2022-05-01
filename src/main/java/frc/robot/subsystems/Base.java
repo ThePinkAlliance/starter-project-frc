@@ -131,10 +131,20 @@ public class Base extends SubsystemBase {
       );
   }
 
+  /**
+   * Takes ChassisSpeed object and converts it to swerve module states to send to all the modules.
+   *
+   * @param speeds
+   */
   public void drive(ChassisSpeeds speeds) {
     states = kinematics.toSwerveModuleStates(speeds);
   }
 
+  /**
+   * Set's the current states for all the Swerve modules to the desired one's.
+   *
+   * @param states
+   */
   public void setStates(SwerveModuleState... states) {
     odometry.update(gyro.getRotation2d(), states);
 
@@ -164,6 +174,11 @@ public class Base extends SubsystemBase {
     );
   }
 
+  /**
+   * Converts module speed in meters per second to desired motor voltage.
+   *
+   * @param speedMetersPerSecond
+   */
   private double convertModuleSpeed(double speedMetersPerSecond) {
     return (
       (speedMetersPerSecond / Constants.MAX_VELOCITY_METERS_PER_SECOND) *
