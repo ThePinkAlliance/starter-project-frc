@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 public class Base extends SubsystemBase {
 
-  AHRS gyro = new AHRS();
+  AHRS gyro;
 
   SwerveModule frontLeftModule;
   SwerveModule frontRightModule;
@@ -32,43 +32,51 @@ public class Base extends SubsystemBase {
 
   ChassisSpeeds chassisSpeeds;
 
-  SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-    // Front Left Pod
-    new Translation2d(
-      Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-      Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-    ),
-    // Front Right
-    new Translation2d(
-      Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-      -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-    ),
-    // Back Left
-    new Translation2d(
-      -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-      Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-    ),
-    // Back Right
-    new Translation2d(
-      -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-      -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-    )
-  );
+  SwerveDriveKinematics kinematics;
 
-  SwerveDriveOdometry odometry = new SwerveDriveOdometry(
-    kinematics,
-    Rotation2d.fromDegrees(gyro.getFusedHeading())
-  );
+  SwerveDriveOdometry odometry;
 
-  SwerveModuleState[] states = kinematics.toSwerveModuleStates(
-    new ChassisSpeeds()
-  );
+  SwerveModuleState[] states;
 
   ShuffleboardTab tab = Shuffleboard.getTab("debug");
 
   /** Creates a new Base. */
   public Base() {
     this.chassisSpeeds = new ChassisSpeeds();
+
+    this.gyro = new AHRS();
+
+    this.kinematics =
+      new SwerveDriveKinematics(
+        // Front Left Pod
+        new Translation2d(
+          Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+          Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
+        ),
+        // Front Right
+        new Translation2d(
+          Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+          -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
+        ),
+        // Back Left
+        new Translation2d(
+          -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+          Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
+        ),
+        // Back Right
+        new Translation2d(
+          -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+          -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
+        )
+      );
+
+    this.odometry =
+      new SwerveDriveOdometry(
+        kinematics,
+        Rotation2d.fromDegrees(gyro.getFusedHeading())
+      );
+
+    this.states = kinematics.toSwerveModuleStates(new ChassisSpeeds());
 
     this.frontLeftModule =
       Mk4SwerveModuleHelper.createFalcon500(
