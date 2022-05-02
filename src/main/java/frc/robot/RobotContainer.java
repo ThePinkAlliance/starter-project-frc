@@ -6,11 +6,13 @@ package frc.robot;
 
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
+import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Drive;
+import frc.robot.selectables.auto.DriveStraight;
 import frc.robot.subsystems.Base;
 
 /**
@@ -38,6 +40,8 @@ public class RobotContainer {
     .deadband()
     .limit(55);
 
+  private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
+
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
 
@@ -45,6 +49,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // Configure the dashboard for operators.
+    configureDashboard();
+  }
+
+  public void configureDashboard() {
+    m_pathChooser.register(new DriveStraight());
+    m_pathChooser.registerDefault(new DriveStraight());
   }
 
   /**
