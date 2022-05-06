@@ -7,6 +7,8 @@ package frc.robot;
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
+import com.ThePinkAlliance.core.selectable.CommandSelectable;
+import com.ThePinkAlliance.core.selectable.SelectableBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +44,11 @@ public class RobotContainer {
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
 
+  private final CommandSelectable defaultSelectable = SelectableBuilder.buildCommand(
+    "Drive Straight",
+    new InstantCommand()
+  );
+
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
 
@@ -55,8 +62,8 @@ public class RobotContainer {
   }
 
   public void configureDashboard() {
-    m_pathChooser.register(new DriveStraight());
-    m_pathChooser.registerDefault(new DriveStraight());
+    m_pathChooser.register(defaultSelectable);
+    m_pathChooser.registerDefault(defaultSelectable);
   }
 
   /**
@@ -75,7 +82,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new InstantCommand();
+    // Resolves the selected command that will run in autonomous
+    return m_pathChooser.get();
   }
 }

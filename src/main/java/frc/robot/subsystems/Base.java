@@ -133,22 +133,6 @@ public class Base extends SubsystemBase {
     this.configurePods();
   }
 
-  public void configurePods() {
-    this.frontLeftModule.configRampRate(
-        Constants.frontLeftConfig.getDriveRampRate()
-      );
-    this.frontRightModule.configRampRate(
-        Constants.frontRightConfig.getDriveRampRate()
-      );
-
-    this.backLeftModule.configRampRate(
-        Constants.backLeftConfig.getDriveRampRate()
-      );
-    this.backRightModule.configRampRate(
-        Constants.backRightConfig.getDriveRampRate()
-      );
-  }
-
   /**
    * Takes ChassisSpeed object and converts it to swerve module states to send to all the modules.
    *
@@ -299,5 +283,21 @@ public class Base extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     setStates(this.states);
+  }
+
+  private void configurePods() {
+    this.frontLeftModule.configRampRate(
+        Constants.frontLeftConfig.getDriveRampRate()
+      );
+    this.frontRightModule.configRampRate(
+        Constants.frontRightConfig.getDriveRampRate()
+      );
+
+    this.backLeftModule.configRampRate(
+        Constants.backLeftConfig.getDriveRampRate()
+      );
+    this.backRightModule.configRampRate(
+        Constants.backRightConfig.getDriveRampRate()
+      );
   }
 }
