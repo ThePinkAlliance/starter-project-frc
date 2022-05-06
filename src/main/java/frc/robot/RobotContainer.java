@@ -26,19 +26,19 @@ public class RobotContainer {
   private final Joystick mainJS = new Joystick(0);
 
   private JoystickAxis x = new JoystickAxis(mainJS, Joystick.Axis.LEFT_X)
-    .cubeAxis()
-    .deadband()
-    .limit(55);
+    .withAxisCubed()
+    .withDeadband()
+    .withLimit(55);
 
   private JoystickAxis y = new JoystickAxis(mainJS, Joystick.Axis.LEFT_Y)
-    .cubeAxis()
-    .deadband()
-    .limit(55);
+    .withAxisCubed()
+    .withDeadband()
+    .withLimit(55);
 
   private JoystickAxis rot = new JoystickAxis(mainJS, Joystick.Axis.RIGHT_X)
-    .cubeAxis()
-    .deadband()
-    .limit(55);
+    .withAxisCubed()
+    .withDeadband()
+    .withLimit(55);
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
 
