@@ -85,10 +85,10 @@ public class Base extends SubsystemBase {
           .withSize(2, 4)
           .withPosition(0, 0),
         Constants.gearRatio,
-        Constants.frontLeftConfig.motorPowerPort,
-        Constants.frontLeftConfig.motorSteerPort,
-        Constants.frontLeftConfig.canIDPort,
-        Constants.frontLeftConfig.steerOffset
+        Constants.frontLeftConfig.getMotorDrivePort(),
+        Constants.frontLeftConfig.getMotorSteerPort(),
+        Constants.frontLeftConfig.getCanCoderPort(),
+        Constants.frontLeftConfig.getSteerOffset()
       );
 
     this.frontRightModule =
@@ -98,10 +98,10 @@ public class Base extends SubsystemBase {
           .withSize(2, 4)
           .withPosition(0, 2),
         Constants.gearRatio,
-        Constants.frontRightConfig.motorPowerPort,
-        Constants.frontRightConfig.motorSteerPort,
-        Constants.frontRightConfig.canIDPort,
-        Constants.frontRightConfig.steerOffset
+        Constants.frontRightConfig.getMotorDrivePort(),
+        Constants.frontRightConfig.getMotorSteerPort(),
+        Constants.frontRightConfig.getCanCoderPort(),
+        Constants.frontRightConfig.getSteerOffset()
       );
 
     this.backRightModule =
@@ -111,10 +111,10 @@ public class Base extends SubsystemBase {
           .withSize(2, 4)
           .withPosition(0, 4),
         Constants.gearRatio,
-        Constants.backRightConfig.motorPowerPort,
-        Constants.backRightConfig.motorSteerPort,
-        Constants.backRightConfig.canIDPort,
-        Constants.backRightConfig.steerOffset
+        Constants.backRightConfig.getMotorDrivePort(),
+        Constants.backRightConfig.getMotorSteerPort(),
+        Constants.backRightConfig.getCanCoderPort(),
+        Constants.backRightConfig.getSteerOffset()
       );
 
     this.backLeftModule =
@@ -124,10 +124,28 @@ public class Base extends SubsystemBase {
           .withSize(2, 4)
           .withPosition(0, 6),
         Constants.gearRatio,
-        Constants.backLeftConfig.motorPowerPort,
-        Constants.backLeftConfig.motorSteerPort,
-        Constants.backLeftConfig.canIDPort,
-        Constants.backLeftConfig.steerOffset
+        Constants.backLeftConfig.getMotorDrivePort(),
+        Constants.backLeftConfig.getMotorSteerPort(),
+        Constants.backLeftConfig.getCanCoderPort(),
+        Constants.backLeftConfig.getSteerOffset()
+      );
+
+    this.configurePods();
+  }
+
+  public void configurePods() {
+    this.frontLeftModule.configRampRate(
+        Constants.frontLeftConfig.getDriveRampRate()
+      );
+    this.frontRightModule.configRampRate(
+        Constants.frontRightConfig.getDriveRampRate()
+      );
+
+    this.backLeftModule.configRampRate(
+        Constants.backLeftConfig.getDriveRampRate()
+      );
+    this.backRightModule.configRampRate(
+        Constants.backRightConfig.getDriveRampRate()
       );
   }
 

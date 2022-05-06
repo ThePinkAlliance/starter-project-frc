@@ -19,25 +19,31 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static double GLOBAL_SWERVE_POD_RAMP_RATE = 0.13;
+
   public static SwerveModuleConfig frontLeftConfig = new SwerveModuleConfig(
     0,
     1,
-    3
+    3,
+    GLOBAL_SWERVE_POD_RAMP_RATE
   );
   public static SwerveModuleConfig frontRightConfig = new SwerveModuleConfig(
     4,
     5,
-    6
+    6,
+    GLOBAL_SWERVE_POD_RAMP_RATE
   );
   public static SwerveModuleConfig backLeftConfig = new SwerveModuleConfig(
     7,
     8,
-    9
+    9,
+    GLOBAL_SWERVE_POD_RAMP_RATE
   );
   public static SwerveModuleConfig backRightConfig = new SwerveModuleConfig(
     10,
     11,
-    12
+    12,
+    GLOBAL_SWERVE_POD_RAMP_RATE
   );
 
   public static Mk4SwerveModuleHelper.GearRatio gearRatio =
