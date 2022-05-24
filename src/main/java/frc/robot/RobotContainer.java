@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
+import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import com.ThePinkAlliance.core.selectable.CommandSelectable;
 import com.ThePinkAlliance.core.selectable.SelectableBuilder;
@@ -50,6 +51,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
+
+  private final Limelight m_limelight = new Limelight(33.3, 50);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
