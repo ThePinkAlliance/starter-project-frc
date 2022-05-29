@@ -269,6 +269,15 @@ public class Base extends SubsystemBase {
   }
 
   /**
+   * Calculates the desired angle relative to the robot's heading.
+   * @param desiredAngle The desired rotation in degress
+   * @return The angle in degress the drivetrain needs to move.
+   */
+  public Rotation2d calculateDesiredAngle(Rotation2d desiredAngle) {
+    return new Rotation2d(this.getSensorYaw() - desiredAngle.getDegrees());
+  }
+
+  /**
    * Returns the current direction of the robot.
    */
   public double getDirection() {

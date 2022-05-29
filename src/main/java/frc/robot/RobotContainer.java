@@ -10,6 +10,7 @@ import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import com.ThePinkAlliance.core.selectable.CommandSelectable;
 import com.ThePinkAlliance.core.selectable.SelectableBuilder;
+import com.ctre.phoenix.motion.MotionProfileStatus;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,7 +45,7 @@ public class RobotContainer {
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
 
-  private final CommandSelectable defaultSelectable = SelectableBuilder.buildCommand(
+  private final CommandSelectable defaultSelectable = SelectableBuilder.build(
     "Drive Straight",
     new InstantCommand()
   );
