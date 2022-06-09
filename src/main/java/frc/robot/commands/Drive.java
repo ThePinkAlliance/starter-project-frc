@@ -4,13 +4,7 @@
 
 package frc.robot.commands;
 
-import com.ThePinkAlliance.core.joystick.InputProcessor;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
-import com.ThePinkAlliance.core.util.joystick.JoystickUtils;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -29,36 +23,6 @@ public class Drive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_base = m_base;
 
-    InputProcessor processor = new InputProcessor() {
-      @Override
-      public double handle(double input) {
-        double c = Math.copySign(input * input * input, input);
-        double e = JoystickUtils.deadband(c, 0.05);
-        double g = e * (0.5);
-
-        return g;
-      }
-    };
-
-    x =
-      x
-        .clearCubing()
-        .clearDeadband()
-        .withLimit(100)
-        .withCustomProcessor(processor);
-    y =
-      y
-        .clearCubing()
-        .clearDeadband()
-        .withLimit(100)
-        .withCustomProcessor(processor);
-    rot =
-      rot
-        .clearCubing()
-        .clearDeadband()
-        .withLimit(100)
-        .withCustomProcessor(processor);
-
     this.x = x;
     this.y = y;
     this.rot = rot;
@@ -73,9 +37,9 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = this.x.getSuppliedValue().get();
-    double y = this.y.getSuppliedValue().get();
-    double rot = this.rot.getSuppliedValue().get();
+    double x = this.x.get();
+    double y = this.y.get();
+    double rot = this.rot.get();
 
     SmartDashboard.putNumber("x", x);
     SmartDashboard.putNumber("y", y);

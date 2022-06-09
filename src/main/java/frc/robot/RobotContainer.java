@@ -11,6 +11,8 @@ import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import com.ThePinkAlliance.core.selectable.CommandSelectable;
 import com.ThePinkAlliance.core.selectable.SelectableBuilder;
 import com.ctre.phoenix.motion.MotionProfileStatus;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,22 +30,15 @@ public class RobotContainer {
 
   private final Joystick mainJS = new Joystick(0);
 
-  private JoystickAxis x = new JoystickAxis(mainJS, Joystick.Axis.LEFT_X)
-    .withAxisCubed()
-    .withDeadband()
-    .withLimit(55);
+  private JoystickAxis x = new JoystickAxis(mainJS, Joystick.Axis.LEFT_X);
 
-  private JoystickAxis y = new JoystickAxis(mainJS, Joystick.Axis.LEFT_Y)
-    .withAxisCubed()
-    .withDeadband()
-    .withLimit(55);
+  private JoystickAxis y = new JoystickAxis(mainJS, Joystick.Axis.LEFT_Y);
 
-  private JoystickAxis rot = new JoystickAxis(mainJS, Joystick.Axis.RIGHT_X)
-    .withAxisCubed()
-    .withDeadband()
-    .withLimit(55);
+  private JoystickAxis rot = new JoystickAxis(mainJS, Joystick.Axis.RIGHT_X);
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
+
+  private final DataLog log = new DataLog("logs");
 
   private final CommandSelectable defaultSelectable = SelectableBuilder.build(
     "Drive Straight",
