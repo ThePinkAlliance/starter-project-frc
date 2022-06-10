@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
+import com.ThePinkAlliance.swervelib.Mk4iSwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -79,55 +80,43 @@ public class Base extends SubsystemBase {
     this.states = kinematics.toSwerveModuleStates(new ChassisSpeeds());
 
     this.frontLeftModule =
-      Mk4SwerveModuleHelper.createFalcon500(
+      Mk4iSwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Front Left Module", BuiltInLayouts.kList)
           .withSize(2, 4)
           .withPosition(0, 0),
         Constants.gearRatio,
-        Constants.frontLeftConfig.getMotorDrivePort(),
-        Constants.frontLeftConfig.getMotorSteerPort(),
-        Constants.frontLeftConfig.getCanCoderPort(),
-        Constants.frontLeftConfig.getSteerOffset()
+        Constants.frontLeftConfig
       );
 
     this.frontRightModule =
-      Mk4SwerveModuleHelper.createFalcon500(
+      Mk4iSwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Front Right Module", BuiltInLayouts.kList)
           .withSize(2, 4)
           .withPosition(0, 2),
         Constants.gearRatio,
-        Constants.frontRightConfig.getMotorDrivePort(),
-        Constants.frontRightConfig.getMotorSteerPort(),
-        Constants.frontRightConfig.getCanCoderPort(),
-        Constants.frontRightConfig.getSteerOffset()
+        Constants.frontRightConfig
       );
 
     this.backRightModule =
-      Mk4SwerveModuleHelper.createFalcon500(
+      Mk4iSwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Back Right Module", BuiltInLayouts.kList)
           .withSize(2, 4)
           .withPosition(0, 4),
         Constants.gearRatio,
-        Constants.backRightConfig.getMotorDrivePort(),
-        Constants.backRightConfig.getMotorSteerPort(),
-        Constants.backRightConfig.getCanCoderPort(),
-        Constants.backRightConfig.getSteerOffset()
+        Constants.backRightConfig
       );
 
     this.backLeftModule =
-      Mk4SwerveModuleHelper.createFalcon500(
+      Mk4iSwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Back Left Module", BuiltInLayouts.kList)
           .withSize(2, 4)
           .withPosition(0, 6),
         Constants.gearRatio,
-        Constants.backLeftConfig.getMotorDrivePort(),
-        Constants.backLeftConfig.getMotorSteerPort(),
-        Constants.backLeftConfig.getCanCoderPort(),
-        Constants.backLeftConfig.getSteerOffset()
+        Constants.backLeftConfig
       );
 
     this.configurePods();

@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ThePinkAlliance.core.drivetrain.swerve.SwerveModuleConfig;
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
+import com.ThePinkAlliance.swervelib.Mk4iSwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.math.util.Units;
 
@@ -46,8 +47,8 @@ public final class Constants {
     GLOBAL_SWERVE_POD_RAMP_RATE
   );
 
-  public static Mk4SwerveModuleHelper.GearRatio gearRatio =
-    Mk4SwerveModuleHelper.GearRatio.L1;
+  public static Mk4iSwerveModuleHelper.GearRatio gearRatio =
+    Mk4iSwerveModuleHelper.GearRatio.L1;
 
   public static final double MAX_VOLTAGE = 12.0;
 
