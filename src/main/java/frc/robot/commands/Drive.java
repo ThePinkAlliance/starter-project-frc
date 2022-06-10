@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Base;
 
@@ -36,9 +37,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double x = this.x.getSuppliedValue().get();
-    double y = this.y.getSuppliedValue().get();
-    double rot = this.rot.getSuppliedValue().get();
+    double x = this.x.get();
+    double y = this.y.get();
+    double rot = this.rot.get();
+
+    SmartDashboard.putNumber("x", x);
+    SmartDashboard.putNumber("y", y);
+    SmartDashboard.putNumber("rot", rot);
 
     m_base.drive(new ChassisSpeeds(x, y, rot));
   }
