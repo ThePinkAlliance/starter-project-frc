@@ -8,9 +8,6 @@ import com.ThePinkAlliance.core.drivetrain.swerve.SwerveModuleConfig;
 import com.ThePinkAlliance.core.util.Gains;
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 
 /**

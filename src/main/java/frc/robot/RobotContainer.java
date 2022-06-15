@@ -15,7 +15,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.Base;
 
@@ -43,7 +42,7 @@ public class RobotContainer {
 
   private final SelectableTrajectory trajectory = new SelectableTrajectory(
     "a",
-    "wpi"
+    "straight"
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
