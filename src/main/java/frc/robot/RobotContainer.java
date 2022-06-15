@@ -8,6 +8,7 @@ import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
+import com.ThePinkAlliance.core.pathweaver.PathFactory;
 import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -77,20 +78,21 @@ public class RobotContainer {
     // Resolves the selected command that will run in autonomous
     Trajectory trajectory = m_pathChooser.get();
 
-    return new SwerveControllerCommand(
-      trajectory,
-      // This updates the robot pose from the odometry class for the entire time the controller is running.
-      () -> m_base.getPose(),
+    return new PathFactory(
       m_base.getKinematics(),
-      Constants.xController,
-      Constants.yController,
-      Constants.thetaController,
-      // This updates the swerve pod states for the entire time the controller is running.
-      states -> {
-        m_base.setStates(states);
-      },
-      m_base
+      () -> m_base.getPose(),
+      Constants.X_GAINS,
+      Constants.Y_GAINS,
+      Constants.THETA_GAINS,
+      Constants.MAX_VELOCITY_METERS_PER_SECOND,
+      Constants.MAX_ACCELERATION_METERS_PER_SECOND
     )
-    .andThen(() -> m_base.drive(new ChassisSpeeds()));
+    .buildController(
+        trajectory,
+        states -> {
+          m_base.setStates(states);
+        },
+        m_base
+      );
   }
 }
