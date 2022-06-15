@@ -1,10 +1,11 @@
 package frc.robot.selectables.auto;
 
-import com.ThePinkAlliance.core.selectable.CommandSelectable;
+import com.ThePinkAlliance.core.selectable.SelectableCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-public class DriveStraight implements CommandSelectable {
+@Deprecated
+public class DriveStraight implements SelectableCommand {
 
   @Override
   public String getName() {

@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
-import com.ThePinkAlliance.swervelib.Mk4iSwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -80,7 +79,7 @@ public class Base extends SubsystemBase {
     this.states = kinematics.toSwerveModuleStates(new ChassisSpeeds());
 
     this.frontLeftModule =
-      Mk4iSwerveModuleHelper.createFalcon500(
+      Mk4SwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Front Left Module", BuiltInLayouts.kList)
           .withSize(2, 4)
@@ -90,7 +89,7 @@ public class Base extends SubsystemBase {
       );
 
     this.frontRightModule =
-      Mk4iSwerveModuleHelper.createFalcon500(
+      Mk4SwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Front Right Module", BuiltInLayouts.kList)
           .withSize(2, 4)
@@ -100,7 +99,7 @@ public class Base extends SubsystemBase {
       );
 
     this.backRightModule =
-      Mk4iSwerveModuleHelper.createFalcon500(
+      Mk4SwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Back Right Module", BuiltInLayouts.kList)
           .withSize(2, 4)
@@ -110,7 +109,7 @@ public class Base extends SubsystemBase {
       );
 
     this.backLeftModule =
-      Mk4iSwerveModuleHelper.createFalcon500(
+      Mk4SwerveModuleHelper.createFalcon500(
         tab
           .getLayout("Back Left Module", BuiltInLayouts.kList)
           .withSize(2, 4)

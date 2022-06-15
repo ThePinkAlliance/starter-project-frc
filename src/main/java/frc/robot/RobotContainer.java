@@ -8,15 +8,13 @@ import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
-import com.ThePinkAlliance.core.selectable.CommandSelectable;
-import com.ThePinkAlliance.core.selectable.SelectableBuilder;
-import com.ctre.phoenix.motion.MotionProfileStatus;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.wpilibj.DataLogManager;
+import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.Drive;
 import frc.robot.subsystems.Base;
 
@@ -38,17 +36,14 @@ public class RobotContainer {
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
 
-  private final DataLog log = new DataLog("logs");
-
-  private final CommandSelectable defaultSelectable = SelectableBuilder.build(
-    "Drive Straight",
-    new InstantCommand()
-  );
-
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
-
   private final Limelight m_limelight = new Limelight(33.3, 50);
+
+  private final SelectableTrajectory trajectory = new SelectableTrajectory(
+    "a",
+    "wpi"
+  );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,8 +55,7 @@ public class RobotContainer {
   }
 
   public void configureDashboard() {
-    m_pathChooser.register(defaultSelectable);
-    m_pathChooser.registerDefault(defaultSelectable);
+    m_pathChooser.registerDefault(trajectory);
   }
 
   /**
@@ -81,6 +75,22 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Resolves the selected command that will run in autonomous
-    return m_pathChooser.get();
+    Trajectory trajectory = m_pathChooser.get();
+
+    return new SwerveControllerCommand(
+      trajectory,
+      // This updates the robot pose from the odometry class for the entire time the controller is running.
+      () -> m_base.getPose(),
+      m_base.getKinematics(),
+      Constants.xController,
+      Constants.yController,
+      Constants.thetaController,
+      // This updates the swerve pod states for the entire time the controller is running.
+      states -> {
+        m_base.setStates(states);
+      },
+      m_base
+    )
+    .andThen(() -> m_base.drive(new ChassisSpeeds()));
   }
 }
