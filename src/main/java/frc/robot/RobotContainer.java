@@ -87,12 +87,17 @@ public class RobotContainer {
       Constants.MAX_VELOCITY_METERS_PER_SECOND,
       Constants.MAX_ACCELERATION_METERS_PER_SECOND
     )
-    .buildController(
+      .buildController(
         trajectory,
         states -> {
           m_base.setStates(states);
         },
         m_base
+      )
+      .andThen(
+        () -> {
+          m_base.drive(new ChassisSpeeds());
+        }
       );
   }
 }
