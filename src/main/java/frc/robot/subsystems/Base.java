@@ -168,7 +168,7 @@ public class Base extends SubsystemBase {
    *
    * @param speedMetersPerSecond
    */
-  private double convertModuleSpeed(double speedMetersPerSecond) {
+  public double convertModuleSpeed(double speedMetersPerSecond) {
     return (
       (speedMetersPerSecond / Constants.MAX_VELOCITY_METERS_PER_SECOND) *
       Constants.MAX_VOLTAGE
