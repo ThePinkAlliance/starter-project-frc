@@ -38,10 +38,12 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
+
+  // Make sure to calibrate the limelight Crosshairs before using it.
   private final Limelight m_limelight = new Limelight(33.3, 50);
 
   private final SelectableTrajectory trajectory = new SelectableTrajectory(
-    "a",
+    "straight",
     "straight"
   );
 

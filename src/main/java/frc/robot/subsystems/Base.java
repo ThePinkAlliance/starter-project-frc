@@ -133,7 +133,7 @@ public class Base extends SubsystemBase {
   /**
    * Set's the current states for all the Swerve modules to the desired one's.
    *
-   * @param states
+   * @param states swerve pod states
    */
   public void setStates(SwerveModuleState... states) {
     odometry.update(gyro.getRotation2d(), states);
