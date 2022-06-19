@@ -1,6 +1,7 @@
 package frc.robot.tools.commands;
 
 import com.ThePinkAlliance.core.ctre.talon.TalonUtils;
+import com.ThePinkAlliance.core.util.Gains;
 import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -21,7 +22,13 @@ public class Navigate extends CommandBase {
   double theta_kI = 0.0;
   double theta_kD = 0.0;
 
+  Gains drive_gains = new Gains(1, 0.5, 0.002);
+  Gains theta_gains = new Gains(6.0, 0, 0);
+
+  double tolerance = 3;
+
   boolean bBackwards = false;
+  boolean debug = false;
 
   double TRACKER_LIMIT_DEFAULT = 0.45;
 
@@ -86,6 +93,25 @@ public class Navigate extends CommandBase {
     addRequirements(base);
   }
 
+  public CommandBase configureTolerance(double tolerance) {
+    this.tolerance = tolerance;
+
+    return this;
+  }
+
+  public CommandBase configureGains(Gains drive) {
+    this.drive_gains = drive;
+
+    return this;
+  }
+
+  public CommandBase configureGains(Gains drive, Gains theta) {
+    this.drive_gains = drive;
+    this.theta_gains = theta;
+
+    return this;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -96,26 +122,20 @@ public class Navigate extends CommandBase {
     base.zeroGyro();
 
     straightController.reset();
-    straightController.setTolerance(3);
+    straightController.setTolerance(this.tolerance);
     base.resetDriveMotors();
-    // straightController.setP(
-    //   SmartDashboard.getNumber(
-    //     Dashboard.DASH_NAVIGATE_kP_ANGLE_OFFSET,
-    //     drive_kP
-    //   )
-    // );
-    // straightController.setI(
-    //   SmartDashboard.getNumber(
-    //     Dashboard.DASH_NAVIGATE_kI_ANGLE_OFFSET,
-    //     drive_kI
-    //   )
-    // );
-    // straightController.setD(
-    //   SmartDashboard.getNumber(
-    //     Dashboard.DASH_NAVIGATE_kD_ANGLE_OFFSET,
-    //     drive_kD
-    //   )
-    // );
+
+    if (debug) {
+      straightController.setP(
+        SmartDashboard.getNumber("NAVIGATE-DRIVE-KP", drive_gains.kP)
+      );
+      straightController.setI(
+        SmartDashboard.getNumber("NAVIGATE-DRIVE-KI", drive_gains.kI)
+      );
+      straightController.setD(
+        SmartDashboard.getNumber("NAVIGATE-DRIVE-KD", drive_gains.kD)
+      );
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -156,6 +176,7 @@ public class Navigate extends CommandBase {
       double output = alignController.calculate(processVariable, 0);
       double limitedTurnPower = limitPower(output / 180, TRACKER_LIMIT_DEFAULT);
       turnPower = limitedTurnPower * Constants.MAX_VELOCITY_METERS_PER_SECOND;
+
       SmartDashboard.putNumber("Navigate Output: ", output);
       SmartDashboard.putNumber("Navigate Turn Power:", turnPower);
       SmartDashboard.putNumber("Navigate Limited Power:", limitedTurnPower);
