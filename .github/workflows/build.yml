@@ -11,6 +11,9 @@ on:
   pull_request:
     branches: [ main, experimental ]
 
+  push:
+    branches: [ "main", "experimental" ]
+
 jobs:
   # This workflow contains a single job called "build"
   build:
