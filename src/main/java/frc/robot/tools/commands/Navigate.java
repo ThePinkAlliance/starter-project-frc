@@ -14,14 +14,6 @@ public class Navigate extends CommandBase {
 
   Base base;
 
-  double drive_kP = 1;
-  double drive_kI = 0.5;
-  double drive_kD = 0.002;
-
-  double theta_kP = 6.0;
-  double theta_kI = 0.0;
-  double theta_kD = 0.0;
-
   Gains drive_gains = new Gains(1, 0.5, 0.002);
   Gains theta_gains = new Gains(6.0, 0, 0);
 
@@ -39,15 +31,15 @@ public class Navigate extends CommandBase {
    */
 
   PIDController straightController = new PIDController(
-    drive_kP,
-    drive_kI,
-    drive_kD
+    drive_gains.kP,
+    drive_gains.kI,
+    drive_gains.kD
   ); // kP 0.27 kI 0.3 kD 0.002
 
   PIDController alignController = new PIDController(
-    theta_kP,
-    theta_kI,
-    theta_kD
+    theta_gains.kP,
+    theta_gains.kI,
+    theta_gains.kD
   );
 
   double reduction = SdsModuleConfigurations.MK4I_L1.getDriveReduction();
