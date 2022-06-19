@@ -4,10 +4,13 @@
 
 package frc.robot.commands;
 
+import com.ThePinkAlliance.core.rev.RevNeo550;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.REVPhysicsSim;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.simulator.PhysicsSim;
@@ -17,6 +20,8 @@ public class MotionProfileTest extends CommandBase {
   // The WPI talons allow us to view motor data in the sim.
   WPI_TalonFX talon = new WPI_TalonFX(0);
   TalonFXSimCollection collection = talon.getSimCollection();
+
+  RevNeo550 neo550 = new RevNeo550(0);
 
   /** Creates a new MotionProfileTest. */
   public MotionProfileTest() {
@@ -35,14 +40,17 @@ public class MotionProfileTest extends CommandBase {
     // talon.config_kI(0, 0.002);
 
     PhysicsSim.getInstance().addTalonFX(talon, 3, 20660);
+    REVPhysicsSim.getInstance().addSparkMax(neo550, DCMotor.getNeo550(1));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     talon.set(ControlMode.Position, 1000);
+    neo550.set(1);
 
     SmartDashboard.putNumber("motor", talon.getSelectedSensorPosition());
+    SmartDashboard.putNumber("motor 2", neo550.get());
   }
 
   // Called once the command ends or is interrupted.

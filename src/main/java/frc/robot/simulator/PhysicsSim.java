@@ -5,6 +5,7 @@ import java.util.*;
 
 /**
  * Manages physics simulation for CTRE products.
+ * @see <a href="https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java%20Talon%20FX%20(Falcon%20500)/MotionProfile/src/main/java/frc/robot/sim">Github</a>
  */
 public class PhysicsSim {
 
