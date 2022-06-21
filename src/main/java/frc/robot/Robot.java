@@ -5,10 +5,15 @@
 package frc.robot;
 
 import com.revrobotics.REVPhysicsSim;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.simulator.PhysicsSim;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
+import org.littletonrobotics.junction.io.ByteLogReceiver;
+import org.littletonrobotics.junction.io.ByteLogReplay;
+import org.littletonrobotics.junction.io.LogSocketServer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,7 +21,7 @@ import frc.robot.simulator.PhysicsSim;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
 
   private Command m_autonomousCommand;
 
@@ -30,7 +35,29 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
     m_robotContainer = new RobotContainer();
+
+    setUseTiming(isReal()); // Run as fast as possible during replay
+    LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
+    LoggedNetworkTables.getInstance().addTable("/debug"); // Log & replay "SmartDashboard" values (no tables are logged by default).
+    Logger.getInstance().recordMetadata("ProjectName", version.GIT_SHA); // Set a metadata value
+
+    if (isReal()) {
+      Logger.getInstance().addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
+      Logger.getInstance().addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.
+    } else {
+      String path =
+        "C:/Users/%USERNAME%/Desktop/code/FRC/Starter-Project-FRC/logs"; // Prompt the user for a file path on the command line
+      Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
+      Logger
+        .getInstance()
+        .addDataReceiver(
+          new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))
+        ); // Save replay results to a new log with the "_sim" suffix
+    }
+
+    Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
   }
 
   /**

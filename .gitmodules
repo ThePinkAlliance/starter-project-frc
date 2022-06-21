@@ -4,3 +4,6 @@
 [submodule "swerve-lib"]
 	path = swerve-lib
 	url = https://github.com/ThePinkAlliance/swerve-lib.git
+[submodule "AdvantageKit"]
+	path = AdvantageKit
+	url = https://github.com/ThePinkAlliance/AdvantageKit.git
