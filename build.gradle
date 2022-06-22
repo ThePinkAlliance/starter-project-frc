@@ -15,7 +15,7 @@ gversion {
                                             // Gradle variables can also be used
                                             // E.g. "${project.rootDir}/module/src/main/java"
   classPackage = "frc.robot"
-  className    = "version"                // optional. If not specified GVersion is used
+  className    = "Version"                // optional. If not specified GVersion is used
   dateFormat   = "yyyy-MM-dd'T'HH:mm:ss'Z'" // optional. This is the default
   timeZone     = "UTC"                      // optional. UTC is default
   debug        = false                      // optional. print out extra debug information

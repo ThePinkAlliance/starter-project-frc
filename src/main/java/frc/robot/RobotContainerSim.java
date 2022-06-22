@@ -8,12 +8,10 @@ import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
-import com.ThePinkAlliance.core.pathweaver.PathFactory;
 import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Drive;
+import frc.robot.commands.MotionProfileTest;
 import frc.robot.subsystems.Base;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
@@ -21,13 +19,8 @@ import org.littletonrobotics.junction.io.ByteLogReceiver;
 import org.littletonrobotics.junction.io.ByteLogReplay;
 import org.littletonrobotics.junction.io.LogSocketServer;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
-public class RobotContainer implements Container {
+/** Add your docs here. */
+public class RobotContainerSim implements Container {
 
   private final Joystick mainJS = new Joystick(0);
 
@@ -51,7 +44,7 @@ public class RobotContainer implements Container {
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainerSim() {
     // Configure the button bindings
     configureButtonBindings();
 
@@ -81,8 +74,15 @@ public class RobotContainer implements Container {
     LoggedNetworkTables.getInstance().addTable("/debug"); // Log & replay "SmartDashboard" values (no tables are logged by default).
     logger.recordMetadata("ProjectName", Version.GIT_SHA); // Set a metadata value
 
-    logger.addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
-    logger.addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.
+    logger.addDataReceiver(new LogSocketServer(5800));
+    String path =
+      "C:\\Users\\%USERNAME%\\Desktop\\code\\FRC\\Starter-Project-FRC\\logs\\test.rlog"; // Prompt the user for a file path on the command line
+    Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
+    Logger
+      .getInstance()
+      .addDataReceiver(
+        new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))
+      ); // Save replay results to a new log with the "_sim" suffix
 
     logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
   }
@@ -95,28 +95,7 @@ public class RobotContainer implements Container {
   @Override
   public Command getAutonomousCommand() {
     // Resolves the selected command that will run in autonomous
-    Trajectory trajectory = m_pathChooser.get();
 
-    return new PathFactory(
-      m_base.getKinematics(),
-      () -> m_base.getPose(),
-      Constants.X_GAINS,
-      Constants.Y_GAINS,
-      Constants.THETA_GAINS,
-      Constants.MAX_VELOCITY_METERS_PER_SECOND,
-      Constants.MAX_ACCELERATION_METERS_PER_SECOND
-    )
-      .buildController(
-        trajectory,
-        states -> {
-          m_base.setStates(states);
-        },
-        m_base
-      )
-      .andThen(
-        () -> {
-          m_base.drive(new ChassisSpeeds());
-        }
-      );
+    return new MotionProfileTest();
   }
 }

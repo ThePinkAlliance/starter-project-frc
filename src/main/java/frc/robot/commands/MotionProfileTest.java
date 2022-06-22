@@ -21,7 +21,7 @@ public class MotionProfileTest extends CommandBase {
   WPI_TalonFX talon = new WPI_TalonFX(0);
   TalonFXSimCollection collection = talon.getSimCollection();
 
-  RevNeo550 neo550 = new RevNeo550(0);
+  RevNeo550 neo550 = new RevNeo550(1);
 
   /** Creates a new MotionProfileTest. */
   public MotionProfileTest() {
