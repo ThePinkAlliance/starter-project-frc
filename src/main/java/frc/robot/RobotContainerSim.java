@@ -75,7 +75,7 @@ public class RobotContainerSim implements Container {
 
     logger.recordMetadata("ProjectName", Version.GIT_SHA); // Set a metadata value
     logger.recordMetadata("ProjectBranch", Version.GIT_BRANCH);
-    logger.recordMetadata("BuildDate", Version.BUILD_DATE);
+    logger.recordMetadata("BuildDate", Long.toString(Version.BUILD_UNIX_TIME));
 
     logger.addDataReceiver(new LogSocketServer(5800));
     String path =

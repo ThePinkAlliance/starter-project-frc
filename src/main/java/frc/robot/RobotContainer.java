@@ -79,9 +79,10 @@ public class RobotContainer implements Container {
 
     LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
     LoggedNetworkTables.getInstance().addTable("/debug"); // Log & replay "SmartDashboard" values (no tables are logged by default).
+
     logger.recordMetadata("ProjectName", Version.GIT_SHA); // Set a metadata value
     logger.recordMetadata("ProjectBranch", Version.GIT_BRANCH);
-    logger.recordMetadata("BuildDate", Version.BUILD_DATE);
+    logger.recordMetadata("BuildDate", Long.toString(Version.BUILD_UNIX_TIME));
 
     logger.addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
     logger.addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.

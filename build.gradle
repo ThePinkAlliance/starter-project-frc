@@ -17,7 +17,7 @@ gversion {
   classPackage = "frc.robot"
   className    = "Version"                // optional. If not specified GVersion is used
   dateFormat   = "yyyy-MM-dd'T'HH:mm:ss'Z'" // optional. This is the default
-  timeZone     = "UTC"                      // optional. UTC is default
+  timeZone     = "UTC-05:00"                      // optional. UTC is default
   debug        = false                      // optional. print out extra debug information
   language     = "java"                     // optional. Can be Java, Kotlin, YAML, or Properties. Case insensitive.
 }
