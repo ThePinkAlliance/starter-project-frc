@@ -72,12 +72,14 @@ public class RobotContainerSim implements Container {
 
     LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
     LoggedNetworkTables.getInstance().addTable("/debug"); // Log & replay "SmartDashboard" values (no tables are logged by default).
+
     logger.recordMetadata("ProjectName", Version.GIT_SHA); // Set a metadata value
+    logger.recordMetadata("ProjectBranch", Version.GIT_BRANCH);
+    logger.recordMetadata("BuildDate", Version.BUILD_DATE);
 
     logger.addDataReceiver(new LogSocketServer(5800));
     String path =
-      "C:\\Users\\%USERNAME%\\Desktop\\code\\FRC\\Starter-Project-FRC\\logs\\test.rlog"; // Prompt the user for a file path on the command line
-    Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
+      "C:\\Users\\capts\\Desktop\\code\\FRC\\Starter-Project-FRC\\logs\\robotlog_simulated.rlog"; // Prompt the user for a file path on the command line
     Logger
       .getInstance()
       .addDataReceiver(
