@@ -23,19 +23,18 @@ import java.util.function.Supplier;
 
 public class Base extends SubsystemBase {
 
+  public static final double DRIVE_WHEEL_CIRCUMFERENCE = 12.875;
+
+  public SwerveModule frontLeftModule;
+  public SwerveModule frontRightModule;
+  public SwerveModule backLeftModule;
+  public SwerveModule backRightModule;
+
   AHRS gyro;
 
-  SwerveModule frontLeftModule;
-  SwerveModule frontRightModule;
-  SwerveModule backLeftModule;
-  SwerveModule backRightModule;
-
   ChassisSpeeds chassisSpeeds;
-
   SwerveDriveKinematics kinematics;
-
   SwerveDriveOdometry odometry;
-
   SwerveModuleState[] states;
 
   ShuffleboardTab tab = Shuffleboard.getTab("debug");
@@ -133,7 +132,7 @@ public class Base extends SubsystemBase {
   /**
    * Set's the current states for all the Swerve modules to the desired one's.
    *
-   * @param states
+   * @param states swerve pod states
    */
   public void setStates(SwerveModuleState... states) {
     odometry.update(gyro.getRotation2d(), states);
@@ -169,7 +168,7 @@ public class Base extends SubsystemBase {
    *
    * @param speedMetersPerSecond
    */
-  private double convertModuleSpeed(double speedMetersPerSecond) {
+  public double convertModuleSpeed(double speedMetersPerSecond) {
     return (
       (speedMetersPerSecond / Constants.MAX_VELOCITY_METERS_PER_SECOND) *
       Constants.MAX_VOLTAGE
@@ -274,6 +273,16 @@ public class Base extends SubsystemBase {
     }
 
     return -1.0;
+  }
+
+  /**
+   * Reset the encoder counts on all the pod drive motors.
+   */
+  public void resetDriveMotors() {
+    this.backLeftModule.resetDrive();
+    this.backRightModule.resetDrive();
+    this.frontLeftModule.resetDrive();
+    this.frontRightModule.resetDrive();
   }
 
   @Override

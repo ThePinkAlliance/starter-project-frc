@@ -5,11 +5,9 @@
 package frc.robot;
 
 import com.ThePinkAlliance.core.drivetrain.swerve.SwerveModuleConfig;
+import com.ThePinkAlliance.core.util.Gains;
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -77,12 +75,7 @@ public final class Constants {
       DRIVETRAIN_WHEELBASE_METERS / 2.0
     );
 
-  public static PIDController xController = new PIDController(0, 0, 0);
-  public static PIDController yController = new PIDController(0, 0, 0);
-  public static ProfiledPIDController thetaController = new ProfiledPIDController(
-    0,
-    0,
-    0,
-    new Constraints(0, 0)
-  );
+  public static final Gains X_GAINS = new Gains(0, 0, 0);
+  public static final Gains Y_GAINS = new Gains(0, 0, 0);
+  public static final Gains THETA_GAINS = new Gains(0, 0, 0);
 }

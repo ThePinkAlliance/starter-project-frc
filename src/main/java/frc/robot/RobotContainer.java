@@ -9,13 +9,12 @@ import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.commands.Drive;
+import frc.robot.commands.MotionProfileTest;
 import frc.robot.subsystems.Base;
 
 /**
@@ -38,11 +37,13 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final Base m_base = new Base();
+
+  // Make sure to calibrate the limelight Crosshairs before using it.
   private final Limelight m_limelight = new Limelight(33.3, 50);
 
   private final SelectableTrajectory trajectory = new SelectableTrajectory(
-    "a",
-    "wpi"
+    "straight",
+    "straight"
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -77,20 +78,27 @@ public class RobotContainer {
     // Resolves the selected command that will run in autonomous
     Trajectory trajectory = m_pathChooser.get();
 
-    return new SwerveControllerCommand(
-      trajectory,
-      // This updates the robot pose from the odometry class for the entire time the controller is running.
-      () -> m_base.getPose(),
-      m_base.getKinematics(),
-      Constants.xController,
-      Constants.yController,
-      Constants.thetaController,
-      // This updates the swerve pod states for the entire time the controller is running.
-      states -> {
-        m_base.setStates(states);
-      },
-      m_base
-    )
-    .andThen(() -> m_base.drive(new ChassisSpeeds()));
+    return new MotionProfileTest();
+    // return new PathFactory(
+    //   m_base.getKinematics(),
+    //   () -> m_base.getPose(),
+    //   Constants.X_GAINS,
+    //   Constants.Y_GAINS,
+    //   Constants.THETA_GAINS,
+    //   Constants.MAX_VELOCITY_METERS_PER_SECOND,
+    //   Constants.MAX_ACCELERATION_METERS_PER_SECOND
+    // )
+    //   .buildController(
+    //     trajectory,
+    //     states -> {
+    //       m_base.setStates(states);
+    //     },
+    //     m_base
+    //   )
+    //   .andThen(
+    //     () -> {
+    //       m_base.drive(new ChassisSpeeds());
+    //     }
+    //   );
   }
 }
