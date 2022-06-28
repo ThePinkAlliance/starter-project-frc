@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 
 /**
- * @see <a href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-intro.html">state based control</a>
+ * @see <a href=
+ *      "https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-intro.html">state
+ *      based control</a>
  */
 public class StateControl extends CommandBase {
 
@@ -24,15 +26,19 @@ public class StateControl extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    elevator.test();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

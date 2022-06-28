@@ -40,6 +40,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Base": "Subsystem",
+      "/LiveWindow/Elevator": "Subsystem",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/PIDController[10]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[11]": "PIDController",
