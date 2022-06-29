@@ -31,16 +31,14 @@ public class Navigate extends CommandBase {
    */
 
   PIDController straightController = new PIDController(
-    drive_gains.kP,
-    drive_gains.kI,
-    drive_gains.kD
-  ); // kP 0.27 kI 0.3 kD 0.002
+      drive_gains.kP,
+      drive_gains.kI,
+      drive_gains.kD); // kP 0.27 kI 0.3 kD 0.002
 
   PIDController alignController = new PIDController(
-    theta_gains.kP,
-    theta_gains.kI,
-    theta_gains.kD
-  );
+      theta_gains.kP,
+      theta_gains.kI,
+      theta_gains.kD);
 
   double reduction = SdsModuleConfigurations.MK4I_L1.getDriveReduction();
 
@@ -72,11 +70,10 @@ public class Navigate extends CommandBase {
   }
 
   public Navigate(
-    Base base,
-    double targetInches,
-    double targetAngle,
-    boolean bBackwards
-  ) {
+      Base base,
+      double targetInches,
+      double targetAngle,
+      boolean bBackwards) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
@@ -119,14 +116,11 @@ public class Navigate extends CommandBase {
 
     if (debug) {
       straightController.setP(
-        SmartDashboard.getNumber("NAVIGATE-DRIVE-KP", drive_gains.kP)
-      );
+          SmartDashboard.getNumber("NAVIGATE-DRIVE-KP", drive_gains.kP));
       straightController.setI(
-        SmartDashboard.getNumber("NAVIGATE-DRIVE-KI", drive_gains.kI)
-      );
+          SmartDashboard.getNumber("NAVIGATE-DRIVE-KI", drive_gains.kI));
       straightController.setD(
-        SmartDashboard.getNumber("NAVIGATE-DRIVE-KD", drive_gains.kD)
-      );
+          SmartDashboard.getNumber("NAVIGATE-DRIVE-KD", drive_gains.kD));
     }
   }
 
@@ -140,25 +134,22 @@ public class Navigate extends CommandBase {
     // Drive
     if (targetInches != 0) {
       // double front_left_pos = Math.abs(
-      //   this.base.frontLeftModule.getDrivePosition()
+      // this.base.frontLeftModule.getDrivePosition()
       // );
       double front_right_pos = Math.abs(
-        this.base.frontRightModule.getDrivePosition()
-      );
+          this.base.frontRightModule.getDrivePosition());
 
       // 0.123825 is the swerve pod drive reduction.
-      double distance_traveled_inches =
-        (
-          (0.123825) * (front_right_pos / TalonUtils.FULL_TALON_ROTATION_TICKS)
-        ) *
-        12.875;
+      double distance_traveled_inches = ((0.123825) * (front_right_pos / TalonUtils.FULL_TALON_ROTATION_TICKS)) *
+          12.875;
 
-      x_output =
-        straightController.calculate(distance_traveled_inches, targetInches);
-      x_power =
-        (x_output / targetInches) * Constants.MAX_VELOCITY_METERS_PER_SECOND;
-      System.out.println("Navigate: " + x_power + ", Output" + x_output);
-      SmartDashboard.putNumber("traveled", distance_traveled_inches);
+      x_output = straightController.calculate(distance_traveled_inches, targetInches);
+      x_power = (x_output / targetInches) * Constants.MAX_VELOCITY_METERS_PER_SECOND;
+
+      if (debug) {
+        System.out.println("Navigate: " + x_power + ", Output" + x_output);
+        SmartDashboard.putNumber("traveled", distance_traveled_inches);
+      }
     }
     // Turn: PID Controller using setpoint of zero
     else if (targetAngle != 0) {
@@ -169,23 +160,30 @@ public class Navigate extends CommandBase {
       double limitedTurnPower = limitPower(output / 180, TRACKER_LIMIT_DEFAULT);
       turnPower = limitedTurnPower * Constants.MAX_VELOCITY_METERS_PER_SECOND;
 
-      SmartDashboard.putNumber("Navigate Output: ", output);
-      SmartDashboard.putNumber("Navigate Turn Power:", turnPower);
-      SmartDashboard.putNumber("Navigate Limited Power:", limitedTurnPower);
-      SmartDashboard.putNumber("Navigate Current Angle:", currentAngle);
-      SmartDashboard.putNumber("Navigate Process Variable:", processVariable);
+      if (debug) {
+        SmartDashboard.putNumber("Navigate Output: ", output);
+        SmartDashboard.putNumber("Navigate Turn Power:", turnPower);
+        SmartDashboard.putNumber("Navigate Limited Power:", limitedTurnPower);
+        SmartDashboard.putNumber("Navigate Current Angle:", currentAngle);
+        SmartDashboard.putNumber("Navigate Process Variable:", processVariable);
+      }
+
     }
 
-    if (bBackwards) x_power *= -1;
+    if (bBackwards)
+      x_power *= -1;
     ChassisSpeeds speeds = new ChassisSpeeds(x_power, 0, turnPower);
     base.drive(speeds);
   }
 
   private double limitPower(double currentPower, double limit) {
     double value = currentPower;
-    if (Math.abs(currentPower) > limit) value =
-      Math.copySign(limit, currentPower);
-    System.out.println("limitPower: " + value + "; Original: " + currentPower);
+    if (Math.abs(currentPower) > limit)
+      value = Math.copySign(limit, currentPower);
+
+    if (debug)
+      System.out.println("limitPower: " + value + "; Original: " + currentPower);
+
     return value;
   }
 
@@ -196,21 +194,18 @@ public class Navigate extends CommandBase {
     base.resetDriveMotors();
 
     System.out.println(
-      "END OF COMMAND: " +
-      this.base.frontRightModule.getDrivePosition() +
-      ", " +
-      (
-        (SdsModuleConfigurations.MK4I_L1.getDriveReduction()) *
-        (
-          this.base.frontRightModule.getDrivePosition() /
-          TalonUtils.FULL_TALON_ROTATION_TICKS
-        ) *
-        Base.DRIVE_WHEEL_CIRCUMFERENCE
-      ) +
-      ", " +
-      "INTERRUPTED: " +
-      interrupted
-    );
+        "END OF COMMAND: " +
+            this.base.frontRightModule.getDrivePosition() +
+            ", " +
+            ((SdsModuleConfigurations.MK4I_L1.getDriveReduction()) *
+                (this.base.frontRightModule.getDrivePosition() /
+                    TalonUtils.FULL_TALON_ROTATION_TICKS)
+                *
+                Base.DRIVE_WHEEL_CIRCUMFERENCE)
+            +
+            ", " +
+            "INTERRUPTED: " +
+            interrupted);
   }
 
   // Returns true when the command should end.
@@ -219,10 +214,12 @@ public class Navigate extends CommandBase {
     boolean straightMet = straightController.atSetpoint();
     boolean turnMet = alignController.atSetpoint();
     System.out.println(
-      "Straight Met: " + straightMet + "; turnMet: " + turnMet
-    );
+        "Straight Met: " + straightMet + "; turnMet: " + turnMet);
 
     // ONLY CHECK THE CONDITION FOR THE MOVEMENT WHOSE TARGET IS NOT ZERO
-    if (targetInches == 0) return turnMet; else return straightMet;
+    if (targetInches == 0)
+      return turnMet;
+    else
+      return straightMet;
   }
 }
