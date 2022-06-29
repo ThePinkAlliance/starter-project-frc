@@ -8,18 +8,18 @@ import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Base;
+import frc.robot.subsystems.SwerveBase;
 
 public class Drive extends CommandBase {
 
-  Base m_base;
+  SwerveBase m_base;
 
   JoystickAxis x;
   JoystickAxis y;
   JoystickAxis rot;
 
   /** Creates a new Drive. */
-  public Drive(Base m_base, JoystickAxis x, JoystickAxis y, JoystickAxis rot) {
+  public Drive(SwerveBase m_base, JoystickAxis x, JoystickAxis y, JoystickAxis rot) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_base = m_base;
 
@@ -32,7 +32,8 @@ public class Drive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

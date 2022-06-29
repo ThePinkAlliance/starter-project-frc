@@ -8,11 +8,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Base;
+import frc.robot.subsystems.SwerveBase;
 
 public class Navigate extends CommandBase {
 
-  Base base;
+  SwerveBase base;
 
   Gains drive_gains = new Gains(1, 0.5, 0.002);
   Gains theta_gains = new Gains(6.0, 0, 0);
@@ -46,7 +46,7 @@ public class Navigate extends CommandBase {
   double targetInches = 0;
 
   /** Creates a new DriveStraight. */
-  public Navigate(Base base, double targetInches, double targetAngle) {
+  public Navigate(SwerveBase base, double targetInches, double targetAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
@@ -54,14 +54,14 @@ public class Navigate extends CommandBase {
     addRequirements(base);
   }
 
-  public Navigate(Base base, double targetInches) {
+  public Navigate(SwerveBase base, double targetInches) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
     addRequirements(base);
   }
 
-  public Navigate(Base base, double targetInches, boolean bBackwards) {
+  public Navigate(SwerveBase base, double targetInches, boolean bBackwards) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
@@ -70,7 +70,7 @@ public class Navigate extends CommandBase {
   }
 
   public Navigate(
-      Base base,
+      SwerveBase base,
       double targetInches,
       double targetAngle,
       boolean bBackwards) {
@@ -201,7 +201,7 @@ public class Navigate extends CommandBase {
                 (this.base.frontRightModule.getDrivePosition() /
                     TalonUtils.FULL_TALON_ROTATION_TICKS)
                 *
-                Base.DRIVE_WHEEL_CIRCUMFERENCE)
+                SwerveBase.DRIVE_WHEEL_CIRCUMFERENCE)
             +
             ", " +
             "INTERRUPTED: " +

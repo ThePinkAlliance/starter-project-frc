@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import java.util.function.Supplier;
 
-public class Base extends SubsystemBase {
+public class SwerveBase extends SubsystemBase {
 
   public static final double DRIVE_WHEEL_CIRCUMFERENCE = 12.875;
 
@@ -41,7 +41,7 @@ public class Base extends SubsystemBase {
   ShuffleboardTab tab = Shuffleboard.getTab("debug");
 
   /** Creates a new Base. */
-  public Base() {
+  public SwerveBase() {
     this.chassisSpeeds = new ChassisSpeeds();
 
     this.gyro = new AHRS();
