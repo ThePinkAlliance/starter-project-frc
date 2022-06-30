@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ThePinkAlliance.swervelib.Mk4SwerveModuleHelper;
+import com.ThePinkAlliance.swervelib.Mk4iSwerveModuleHelper;
 import com.ThePinkAlliance.swervelib.SwerveModule;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -45,83 +46,105 @@ public class Base extends SubsystemBase {
 
     this.gyro = new AHRS();
 
-    this.kinematics =
-      new SwerveDriveKinematics(
+    this.kinematics = new SwerveDriveKinematics(
         // Front Left Pod
         new Translation2d(
-          Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-          Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-        ),
+            Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+            Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
         // Front Right
         new Translation2d(
-          Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-          -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-        ),
+            Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+            -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
         // Back Left
         new Translation2d(
-          -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-          Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-        ),
+            -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+            Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
         // Back Right
         new Translation2d(
-          -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-          -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0
-        )
-      );
+            -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+            -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
-    this.odometry =
-      new SwerveDriveOdometry(
+    this.odometry = new SwerveDriveOdometry(
         kinematics,
-        Rotation2d.fromDegrees(gyro.getFusedHeading())
-      );
+        Rotation2d.fromDegrees(gyro.getFusedHeading()));
 
     this.states = kinematics.toSwerveModuleStates(new ChassisSpeeds());
 
-    this.frontLeftModule =
-      Mk4SwerveModuleHelper.createFalcon500(
-        tab
-          .getLayout("Front Left Module", BuiltInLayouts.kList)
-          .withSize(2, 4)
-          .withPosition(0, 0),
-        Constants.gearRatio,
-        Constants.frontLeftConfig
-      );
-
-    this.frontRightModule =
-      Mk4SwerveModuleHelper.createFalcon500(
-        tab
-          .getLayout("Front Right Module", BuiltInLayouts.kList)
-          .withSize(2, 4)
-          .withPosition(0, 2),
-        Constants.gearRatio,
-        Constants.frontRightConfig
-      );
-
-    this.backRightModule =
-      Mk4SwerveModuleHelper.createFalcon500(
-        tab
-          .getLayout("Back Right Module", BuiltInLayouts.kList)
-          .withSize(2, 4)
-          .withPosition(0, 4),
-        Constants.gearRatio,
-        Constants.backRightConfig
-      );
-
-    this.backLeftModule =
-      Mk4SwerveModuleHelper.createFalcon500(
-        tab
-          .getLayout("Back Left Module", BuiltInLayouts.kList)
-          .withSize(2, 4)
-          .withPosition(0, 6),
-        Constants.gearRatio,
-        Constants.backLeftConfig
-      );
-
+    this.configureMk4(Constants.gearRatio);
     this.configurePods();
   }
 
+  public void configureMk4(Mk4SwerveModuleHelper.GearRatio ratio) {
+    this.frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Front Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 0),
+        ratio,
+        Constants.frontLeftConfig);
+
+    this.frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Front Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 2),
+        ratio,
+        Constants.frontRightConfig);
+
+    this.backRightModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Back Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 4),
+        ratio,
+        Constants.backRightConfig);
+
+    this.backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Back Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 6),
+        ratio,
+        Constants.backLeftConfig);
+  }
+
+  public void configureMk4i(Mk4iSwerveModuleHelper.GearRatio ratio) {
+    this.frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Front Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 0),
+        ratio,
+        Constants.frontLeftConfig);
+
+    this.frontRightModule = Mk4iSwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Front Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 2),
+        ratio,
+        Constants.frontRightConfig);
+
+    this.backRightModule = Mk4iSwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Back Right Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 4),
+        ratio,
+        Constants.backRightConfig);
+
+    this.backLeftModule = Mk4iSwerveModuleHelper.createFalcon500(
+        tab
+            .getLayout("Back Left Module", BuiltInLayouts.kList)
+            .withSize(2, 4)
+            .withPosition(0, 6),
+        ratio,
+        Constants.backLeftConfig);
+  }
+
   /**
-   * Takes ChassisSpeed object and converts it to swerve module states to send to all the modules.
+   * Takes ChassisSpeed object and converts it to swerve module states to send to
+   * all the modules.
    *
    * @param speeds
    */
@@ -138,29 +161,24 @@ public class Base extends SubsystemBase {
     odometry.update(gyro.getRotation2d(), states);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(
-      states,
-      Constants.MAX_VELOCITY_METERS_PER_SECOND
-    );
+        states,
+        Constants.MAX_VELOCITY_METERS_PER_SECOND);
 
     frontLeftModule.set(
-      convertModuleSpeed(states[0].speedMetersPerSecond),
-      states[0].angle.getRadians()
-    );
+        convertModuleSpeed(states[0].speedMetersPerSecond),
+        states[0].angle.getRadians());
 
     frontRightModule.set(
-      convertModuleSpeed(states[1].speedMetersPerSecond),
-      states[1].angle.getRadians()
-    );
+        convertModuleSpeed(states[1].speedMetersPerSecond),
+        states[1].angle.getRadians());
 
     backLeftModule.set(
-      convertModuleSpeed(states[2].speedMetersPerSecond),
-      states[2].angle.getRadians()
-    );
+        convertModuleSpeed(states[2].speedMetersPerSecond),
+        states[2].angle.getRadians());
 
     backRightModule.set(
-      convertModuleSpeed(states[3].speedMetersPerSecond),
-      states[3].angle.getRadians()
-    );
+        convertModuleSpeed(states[3].speedMetersPerSecond),
+        states[3].angle.getRadians());
   }
 
   /**
@@ -169,10 +187,8 @@ public class Base extends SubsystemBase {
    * @param speedMetersPerSecond
    */
   public double convertModuleSpeed(double speedMetersPerSecond) {
-    return (
-      (speedMetersPerSecond / Constants.MAX_VELOCITY_METERS_PER_SECOND) *
-      Constants.MAX_VOLTAGE
-    );
+    return ((speedMetersPerSecond / Constants.MAX_VELOCITY_METERS_PER_SECOND) *
+        Constants.MAX_VOLTAGE);
   }
 
   /**
@@ -233,12 +249,10 @@ public class Base extends SubsystemBase {
    * Returns if the robot inverted.
    */
   public boolean isInverted() {
-    return (
-      getRotation().getDegrees() <= 190 &&
-      getRotation().getDegrees() > 90 ||
-      getRotation().getDegrees() >= 290 &&
-      getRotation().getDegrees() < 90
-    );
+    return (getRotation().getDegrees() <= 190 &&
+        getRotation().getDegrees() > 90 ||
+        getRotation().getDegrees() >= 290 &&
+            getRotation().getDegrees() < 90);
   }
 
   /**
@@ -257,6 +271,7 @@ public class Base extends SubsystemBase {
 
   /**
    * Calculates the desired angle relative to the robot's heading.
+   * 
    * @param desiredAngle The desired rotation in degress
    * @return The angle in degress the drivetrain needs to move.
    */
@@ -292,18 +307,19 @@ public class Base extends SubsystemBase {
   }
 
   private void configurePods() {
+    if (this.frontLeftModule == null || this.frontRightModule == null || this.backLeftModule == null
+        || this.backRightModule == null) {
+      throw new Error("Please configure the swerve pod type");
+    }
+
     this.frontLeftModule.configRampRate(
-        Constants.frontLeftConfig.getDriveRampRate()
-      );
+        Constants.frontLeftConfig.getDriveRampRate());
     this.frontRightModule.configRampRate(
-        Constants.frontRightConfig.getDriveRampRate()
-      );
+        Constants.frontRightConfig.getDriveRampRate());
 
     this.backLeftModule.configRampRate(
-        Constants.backLeftConfig.getDriveRampRate()
-      );
+        Constants.backLeftConfig.getDriveRampRate());
     this.backRightModule.configRampRate(
-        Constants.backRightConfig.getDriveRampRate()
-      );
+        Constants.backRightConfig.getDriveRampRate());
   }
 }
