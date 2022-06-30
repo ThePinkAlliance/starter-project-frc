@@ -1,5 +1,20 @@
 {
   "HALProvider": {
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
+    "Encoders": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "Talon FX[0]": {
         "header": {
@@ -17,6 +32,21 @@
         }
       },
       "Talon FX[0]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]/Rev Limit": {
         "header": {
           "open": true
         }
@@ -56,8 +86,21 @@
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [1]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/drivers/SendableChooser[0]": "String Chooser"
+    },
+    "windows": {
+      "/LiveWindow/Base": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Elevator": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
@@ -68,15 +111,11 @@
         },
         "Front Left Module": {
           "open": true
-        },
-        "open": true
+        }
       },
       "open": true
     },
     "SmartDashboard": {
-      "open": true
-    },
-    "limelight": {
       "open": true
     }
   },
