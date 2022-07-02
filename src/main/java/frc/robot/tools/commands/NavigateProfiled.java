@@ -1,23 +1,35 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.tools.commands;
 
+import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ThePinkAlliance.core.ctre.talon.TalonUtils;
 import com.ThePinkAlliance.core.util.Gains;
-import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Base;
 
-public class Navigate extends CommandBase {
+public class NavigateProfiled extends CommandBase {
+
+  TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(Constants.MAX_VELOCITY_METERS_PER_SECOND,
+      Constants.MAX_ACCELERATION_METERS_PER_SECOND);
+
+  TrapezoidProfile.State idle_state = new TrapezoidProfile.State();
 
   Base base;
 
   Gains drive_gains = new Gains(1, 0.5, 0.002);
   Gains theta_gains = new Gains(6.0, 0, 0);
 
-  double tolerance = 3;
+  double straight_tolerance = 3;
+  double align_tolerance = 1;
 
   boolean bBackwards = false;
   boolean debug = false;
@@ -30,10 +42,10 @@ public class Navigate extends CommandBase {
    * kD: keep kD low otherwise your system could become unstable
    */
 
-  PIDController straightController = new PIDController(
+  ProfiledPIDController straightController = new ProfiledPIDController(
       drive_gains.kP,
       drive_gains.kI,
-      drive_gains.kD); // kP 0.27 kI 0.3 kD 0.002
+      drive_gains.kD, constraints); // kP 0.27 kI 0.3 kD 0.002
 
   PIDController alignController = new PIDController(
       theta_gains.kP,
@@ -46,7 +58,7 @@ public class Navigate extends CommandBase {
   double targetInches = 0;
 
   /** Creates a new DriveStraight. */
-  public Navigate(Base base, double targetInches, double targetAngle) {
+  public NavigateProfiled(Base base, double targetInches, double targetAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
@@ -54,14 +66,14 @@ public class Navigate extends CommandBase {
     addRequirements(base);
   }
 
-  public Navigate(Base base, double targetInches) {
+  public NavigateProfiled(Base base, double targetInches) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
     addRequirements(base);
   }
 
-  public Navigate(Base base, double targetInches, boolean bBackwards) {
+  public NavigateProfiled(Base base, double targetInches, boolean bBackwards) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.base = base;
     this.targetInches = targetInches;
@@ -69,7 +81,7 @@ public class Navigate extends CommandBase {
     addRequirements(base);
   }
 
-  public Navigate(
+  public NavigateProfiled(
       Base base,
       double targetInches,
       double targetAngle,
@@ -83,7 +95,7 @@ public class Navigate extends CommandBase {
   }
 
   public CommandBase configureTolerance(double tolerance) {
-    this.tolerance = tolerance;
+    this.straight_tolerance = tolerance;
 
     return this;
   }
@@ -101,18 +113,33 @@ public class Navigate extends CommandBase {
     return this;
   }
 
+  /**
+   * Motion profile constrants are only applyed to the straight controller.
+   * 
+   * @param constraints Can be created by using
+   *                    <a href=
+   *                    "https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/trapezoidal-profiles.html#constraints">TrapezoidProfile.Constraints</a>
+   */
+  public CommandBase configureProfileConstrants(TrapezoidProfile.Constraints constraints) {
+    this.constraints = constraints;
+
+    return this;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     base.drive(new ChassisSpeeds());
     alignController.reset();
     alignController.enableContinuousInput(-180.0, 180.0);
-    alignController.setTolerance(1);
+    alignController.setTolerance(this.align_tolerance);
     base.zeroGyro();
 
-    straightController.reset();
-    straightController.setTolerance(this.tolerance);
+    straightController.reset(this.idle_state);
+    straightController.setTolerance(this.straight_tolerance);
     base.resetDriveMotors();
+
+    this.straightController.setConstraints(constraints);
 
     if (debug) {
       straightController.setP(
@@ -152,11 +179,9 @@ public class Navigate extends CommandBase {
     double x_power = 0.0;
     double turnPower = 0.0;
 
-    // Drive
+    // * Drive
     if (targetInches != 0) {
-      // double front_left_pos = Math.abs(
-      // this.base.frontLeftModule.getDrivePosition()
-      // );
+      // ? I think the wheel positions should be averaged.
       double front_right_pos = Math.abs(
           this.base.frontRightModule.getDrivePosition());
 
@@ -172,7 +197,7 @@ public class Navigate extends CommandBase {
         SmartDashboard.putNumber("traveled", distance_traveled_inches);
       }
     }
-    // Turn: PID Controller using setpoint of zero
+    // * Turn: PID Controller using setpoint of zero
     else if (targetAngle != 0) {
       double currentAngle = base.getSensorYaw();
       double processVariable = Math.abs(targetAngle) - Math.abs(currentAngle);
