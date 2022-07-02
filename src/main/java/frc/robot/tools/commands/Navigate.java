@@ -121,6 +121,27 @@ public class Navigate extends CommandBase {
           SmartDashboard.getNumber("NAVIGATE-DRIVE-KI", drive_gains.kI));
       straightController.setD(
           SmartDashboard.getNumber("NAVIGATE-DRIVE-KD", drive_gains.kD));
+
+      alignController.setP(
+          SmartDashboard.getNumber("NAVIGATE-THETA-KP", theta_gains.kP));
+      alignController.setI(
+          SmartDashboard.getNumber("NAVIGATE-THETA-KI", theta_gains.kI));
+      alignController.setD(
+          SmartDashboard.getNumber("NAVIGATE-THETA-KD", theta_gains.kD));
+    } else {
+      straightController.setP(
+          drive_gains.kP);
+      straightController.setI(
+          drive_gains.kI);
+      straightController.setD(
+          drive_gains.kD);
+
+      alignController.setP(
+          theta_gains.kP);
+      alignController.setI(
+          theta_gains.kI);
+      alignController.setD(
+          theta_gains.kD);
     }
   }
 
