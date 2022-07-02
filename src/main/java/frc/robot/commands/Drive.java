@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -18,6 +19,8 @@ public class Drive extends CommandBase {
   JoystickAxis y;
   JoystickAxis rot;
 
+  SlewRateLimiter limiter;
+
   /** Creates a new Drive. */
   public Drive(Base m_base, JoystickAxis x, JoystickAxis y, JoystickAxis rot) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,13 +29,15 @@ public class Drive extends CommandBase {
     this.x = x;
     this.y = y;
     this.rot = rot;
+    this.limiter = new SlewRateLimiter(0.5);
 
     addRequirements(m_base);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -40,6 +45,9 @@ public class Drive extends CommandBase {
     double x = this.x.get();
     double y = this.y.get();
     double rot = this.rot.get();
+
+    // Not tested
+    y = this.limiter.calculate(y);
 
     SmartDashboard.putNumber("x", x);
     SmartDashboard.putNumber("y", y);
