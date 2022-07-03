@@ -129,6 +129,15 @@ public class NavigateProfiled extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    /**
+     * Configure the swerve pod ramp rate as zero to avoid interference with
+     * the motion profile.
+     */
+    base.backLeftModule.configRampRate(0);
+    base.backRightModule.configRampRate(0);
+    base.frontLeftModule.configRampRate(0);
+    base.frontRightModule.configRampRate(0);
+
     base.drive(new ChassisSpeeds());
     alignController.reset();
     alignController.enableContinuousInput(-180.0, 180.0);
@@ -238,6 +247,12 @@ public class NavigateProfiled extends CommandBase {
   public void end(boolean interrupted) {
     base.drive(new ChassisSpeeds(0, 0, 0));
     base.resetDriveMotors();
+
+    // Reconfigure the swerve pods with the global ramp rate.
+    base.backLeftModule.configRampRate(Constants.GLOBAL_SWERVE_POD_RAMP_RATE);
+    base.backRightModule.configRampRate(Constants.GLOBAL_SWERVE_POD_RAMP_RATE);
+    base.frontLeftModule.configRampRate(Constants.GLOBAL_SWERVE_POD_RAMP_RATE);
+    base.frontRightModule.configRampRate(Constants.GLOBAL_SWERVE_POD_RAMP_RATE);
 
     System.out.println(
         "END OF COMMAND: " +
