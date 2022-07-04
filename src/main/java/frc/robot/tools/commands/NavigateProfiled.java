@@ -6,7 +6,7 @@ package frc.robot.tools.commands;
 
 import com.ThePinkAlliance.swervelib.SdsModuleConfigurations;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.ThePinkAlliance.core.ctre.talon.TalonUtils;
+import com.ThePinkAlliance.core.ctre.fx.TalonFXUtils;
 import com.ThePinkAlliance.core.util.Gains;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -195,7 +195,7 @@ public class NavigateProfiled extends CommandBase {
           this.base.frontRightModule.getDrivePosition());
 
       // 0.123825 is the swerve pod drive reduction.
-      double distance_traveled_inches = ((0.123825) * (front_right_pos / TalonUtils.FULL_TALON_ROTATION_TICKS)) *
+      double distance_traveled_inches = ((0.123825) * (front_right_pos / TalonFXUtils.FULL_TALON_ROTATION_TICKS)) *
           12.875;
 
       x_output = straightController.calculate(distance_traveled_inches, targetInches);
@@ -260,7 +260,7 @@ public class NavigateProfiled extends CommandBase {
             ", " +
             ((SdsModuleConfigurations.MK4I_L1.getDriveReduction()) *
                 (this.base.frontRightModule.getDrivePosition() /
-                    TalonUtils.FULL_TALON_ROTATION_TICKS)
+                    TalonFXUtils.FULL_TALON_ROTATION_TICKS)
                 *
                 Base.DRIVE_WHEEL_CIRCUMFERENCE)
             +
