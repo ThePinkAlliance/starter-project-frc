@@ -16,4 +16,4 @@ For most projects using git you probably have git project setup on a hosting sit
 git remote set-url origin <your-url>
 ```
 
-Just in case if your confused on what the url for your project might be, visit its page on your hosting site of choice and copy and paste that url in place of `<your-url>`.
+Just in case if your confused on what the url for your project might be, visit its page on your hosting site of choice and copy and paste that url and replace `<your-url>` with it.
