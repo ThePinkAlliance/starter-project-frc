@@ -5,8 +5,12 @@ import java.util.*;
 
 /**
  * Manages physics simulation for CTRE products.
- * @see <a href="https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java%20Talon%20FX%20(Falcon%20500)/MotionProfile/src/main/java/frc/robot/sim">Github</a>
+ * 
+ * @deprecated Please use the simulation utils from core library.
+ * @see <a href=
+ *      "https://github.com/CrossTheRoadElec/Phoenix-Examples-Languages/tree/master/Java%20Talon%20FX%20(Falcon%20500)/MotionProfile/src/main/java/frc/robot/sim">Github</a>
  */
+@Deprecated
 public class PhysicsSim {
 
   private static final PhysicsSim sim = new PhysicsSim();
@@ -22,17 +26,17 @@ public class PhysicsSim {
    * Adds a TalonSRX controller to the simulator.
    *
    * @param talon
-   *        The TalonSRX device
+   *                        The TalonSRX device
    * @param accelToFullTime
-   *        The time the motor takes to accelerate from 0 to full, in seconds
+   *                        The time the motor takes to accelerate from 0 to full,
+   *                        in seconds
    * @param fullVel
-   *        The maximum motor velocity, in ticks per 100ms
+   *                        The maximum motor velocity, in ticks per 100ms
    */
   public void addTalonSRX(
-    TalonSRX talon,
-    final double accelToFullTime,
-    final double fullVel
-  ) {
+      TalonSRX talon,
+      final double accelToFullTime,
+      final double fullVel) {
     addTalonSRX(talon, accelToFullTime, fullVel, false);
   }
 
@@ -40,27 +44,26 @@ public class PhysicsSim {
    * Adds a TalonSRX controller to the simulator.
    *
    * @param talon
-   *        The TalonSRX device
+   *                        The TalonSRX device
    * @param accelToFullTime
-   *        The time the motor takes to accelerate from 0 to full, in seconds
+   *                        The time the motor takes to accelerate from 0 to full,
+   *                        in seconds
    * @param fullVel
-   *        The maximum motor velocity, in ticks per 100ms
+   *                        The maximum motor velocity, in ticks per 100ms
    * @param sensorPhase
-   *        The phase of the TalonSRX sensors
+   *                        The phase of the TalonSRX sensors
    */
   public void addTalonSRX(
-    TalonSRX talon,
-    final double accelToFullTime,
-    final double fullVel,
-    final boolean sensorPhase
-  ) {
+      TalonSRX talon,
+      final double accelToFullTime,
+      final double fullVel,
+      final boolean sensorPhase) {
     if (talon != null) {
       TalonSRXSimProfile simTalon = new TalonSRXSimProfile(
-        talon,
-        accelToFullTime,
-        fullVel,
-        sensorPhase
-      );
+          talon,
+          accelToFullTime,
+          fullVel,
+          sensorPhase);
       _simProfiles.add(simTalon);
     }
   }
@@ -69,17 +72,17 @@ public class PhysicsSim {
    * Adds a TalonFX controller to the simulator.
    *
    * @param falcon
-   *        The TalonFX device
+   *                        The TalonFX device
    * @param accelToFullTime
-   *        The time the motor takes to accelerate from 0 to full, in seconds
+   *                        The time the motor takes to accelerate from 0 to full,
+   *                        in seconds
    * @param fullVel
-   *        The maximum motor velocity, in ticks per 100ms
+   *                        The maximum motor velocity, in ticks per 100ms
    */
   public void addTalonFX(
-    TalonFX falcon,
-    final double accelToFullTime,
-    final double fullVel
-  ) {
+      TalonFX falcon,
+      final double accelToFullTime,
+      final double fullVel) {
     addTalonFX(falcon, accelToFullTime, fullVel, false);
   }
 
@@ -87,27 +90,26 @@ public class PhysicsSim {
    * Adds a TalonFX controller to the simulator.
    *
    * @param falcon
-   *        The TalonFX device
+   *                        The TalonFX device
    * @param accelToFullTime
-   *        The time the motor takes to accelerate from 0 to full, in seconds
+   *                        The time the motor takes to accelerate from 0 to full,
+   *                        in seconds
    * @param fullVel
-   *        The maximum motor velocity, in ticks per 100ms
+   *                        The maximum motor velocity, in ticks per 100ms
    * @param sensorPhase
-   *        The phase of the TalonFX sensors
+   *                        The phase of the TalonFX sensors
    */
   public void addTalonFX(
-    TalonFX falcon,
-    final double accelToFullTime,
-    final double fullVel,
-    final boolean sensorPhase
-  ) {
+      TalonFX falcon,
+      final double accelToFullTime,
+      final double fullVel,
+      final boolean sensorPhase) {
     if (falcon != null) {
       TalonFXSimProfile simFalcon = new TalonFXSimProfile(
-        falcon,
-        accelToFullTime,
-        fullVel,
-        sensorPhase
-      );
+          falcon,
+          accelToFullTime,
+          fullVel,
+          sensorPhase);
       _simProfiles.add(simFalcon);
     }
   }
@@ -116,7 +118,7 @@ public class PhysicsSim {
    * Adds a VictorSPX controller to the simulator.
    *
    * @param victor
-   *        The VictorSPX device
+   *               The VictorSPX device
    */
   public void addVictorSPX(VictorSPX victor) {
     if (victor != null) {
@@ -139,15 +141,15 @@ public class PhysicsSim {
 
   private final ArrayList<SimProfile> _simProfiles = new ArrayList<SimProfile>();
 
-  /* scales a random domain of [0, 2pi] to [min, max] while prioritizing the peaks */
+  /*
+   * scales a random domain of [0, 2pi] to [min, max] while prioritizing the peaks
+   */
   static double random(double min, double max) {
-    return (
-      (max - min) /
-      2 *
-      Math.sin(Math.IEEEremainder(Math.random(), 2 * 3.14159)) +
-      (max + min) /
-      2
-    );
+    return ((max - min) /
+        2 *
+        Math.sin(Math.IEEEremainder(Math.random(), 2 * 3.14159)) +
+        (max + min) /
+            2);
   }
 
   static double random(double max) {
@@ -166,7 +168,8 @@ public class PhysicsSim {
      * Runs the simulation profile.
      * Implemented by device-specific profiles.
      */
-    public void run() {}
+    public void run() {
+    }
 
     /**
      * Returns the time since last call, in milliseconds.
