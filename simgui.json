@@ -88,7 +88,8 @@
       "/LiveWindow/Ungrouped/Talon FX [0]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [1]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/Shuffleboard/drivers/SendableChooser[0]": "String Chooser"
+      "/Shuffleboard/drivers/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Elevator Sim": "Mechanism2d"
     },
     "windows": {
       "/LiveWindow/Base": {
@@ -100,10 +101,20 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Elevator Sim": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },
   "NetworkTables": {
+    "LiveWindow": {
+      "Elevator": {
+        "open": true
+      }
+    },
     "Shuffleboard": {
       "debug": {
         "Back Right Module": {
@@ -116,6 +127,12 @@
       "open": true
     },
     "SmartDashboard": {
+      "Elevator Sim": {
+        "Elevator Root": {
+          "open": true
+        },
+        "open": true
+      },
       "open": true
     }
   },

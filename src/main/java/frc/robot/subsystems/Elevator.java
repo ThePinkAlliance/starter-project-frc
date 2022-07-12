@@ -47,9 +47,9 @@ public class Elevator extends SubsystemBase {
       DCMotor.getFalcon500(2),
       2.26796,
       (Units.inchesToMeters(2.36) / 2),
-      (1 / 1));
+      (1));
 
-  LinearQuadraticRegulator<N2, N1, N1> regulator = new LinearQuadraticRegulator<>(
+  LinearQuadraticRegulator<N2, N1, N1> lqr = new LinearQuadraticRegulator<>(
       linearSystem,
       VecBuilder.fill(POSITION_ERROR_TOLOERANCE, VELOCITY_ERROR_TOLOERANCE),
       VecBuilder.fill(MAX_VOLTAGE),
@@ -65,7 +65,7 @@ public class Elevator extends SubsystemBase {
 
   LinearSystemLoop<N2, N1, N1> controlLoop = new LinearSystemLoop<>(
       linearSystem,
-      regulator,
+      lqr,
       observer,
       12.0,
       LOOP_TIME);
@@ -86,16 +86,17 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     motor = new WPI_TalonFX(1);
     encoder.setDistancePerPulse(2 * Math.PI * 2.75 / 4096);
-
-    SmartDashboard.putData(mechanism2d);
+    SmartDashboard.putData("Elevator Sim", mechanism2d);
   }
 
   public void start() {
     motor.set(ControlMode.PercentOutput, 1);
+    sim.setInputVoltage(12);
   }
 
   public void stop() {
     motor.set(ControlMode.PercentOutput, 0);
+    root.setPosition(0, 0);
   }
 
   @Override
