@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ThePinkAlliance.core.joystick.Axis;
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
@@ -18,20 +19,23 @@ import frc.robot.commands.MotionProfileTest;
 import frc.robot.subsystems.Base;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
 
   private final Joystick mainJS = new Joystick(0);
 
-  private JoystickAxis x = new JoystickAxis(mainJS, Joystick.Axis.LEFT_X);
+  private JoystickAxis x = new JoystickAxis(mainJS, Axis.LEFT_X);
 
-  private JoystickAxis y = new JoystickAxis(mainJS, Joystick.Axis.LEFT_Y);
+  private JoystickAxis y = new JoystickAxis(mainJS, Axis.LEFT_Y);
 
-  private JoystickAxis rot = new JoystickAxis(mainJS, Joystick.Axis.RIGHT_X);
+  private JoystickAxis rot = new JoystickAxis(mainJS, Axis.RIGHT_X);
 
   private final PathChooser m_pathChooser = new PathChooser("drivers", 2, 0);
 
@@ -42,11 +46,12 @@ public class RobotContainer {
   private final Limelight m_limelight = new Limelight(33.3, 50);
 
   private final SelectableTrajectory trajectory = new SelectableTrajectory(
-    "straight",
-    "straight"
-  );
+      "straight",
+      "straight");
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -60,9 +65,11 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -80,25 +87,25 @@ public class RobotContainer {
 
     return new MotionProfileTest();
     // return new PathFactory(
-    //   m_base.getKinematics(),
-    //   () -> m_base.getPose(),
-    //   Constants.X_GAINS,
-    //   Constants.Y_GAINS,
-    //   Constants.THETA_GAINS,
-    //   Constants.MAX_VELOCITY_METERS_PER_SECOND,
-    //   Constants.MAX_ACCELERATION_METERS_PER_SECOND
+    // m_base.getKinematics(),
+    // () -> m_base.getPose(),
+    // Constants.X_GAINS,
+    // Constants.Y_GAINS,
+    // Constants.THETA_GAINS,
+    // Constants.MAX_VELOCITY_METERS_PER_SECOND,
+    // Constants.MAX_ACCELERATION_METERS_PER_SECOND
     // )
-    //   .buildController(
-    //     trajectory,
-    //     states -> {
-    //       m_base.setStates(states);
-    //     },
-    //     m_base
-    //   )
-    //   .andThen(
-    //     () -> {
-    //       m_base.drive(new ChassisSpeeds());
-    //     }
-    //   );
+    // .buildController(
+    // trajectory,
+    // states -> {
+    // m_base.setStates(states);
+    // },
+    // m_base
+    // )
+    // .andThen(
+    // () -> {
+    // m_base.drive(new ChassisSpeeds());
+    // }
+    // );
   }
 }
