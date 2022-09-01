@@ -101,6 +101,14 @@ jar {
     }
 }
 
+
+test {
+  useJUnit()
+  testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
 // jar.dependsOn(":core:jar")
 
 // Configure jar and deploy tasks

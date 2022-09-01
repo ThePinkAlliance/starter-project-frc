@@ -8,6 +8,7 @@ import com.ThePinkAlliance.core.joystick.Axis;
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
+import com.ThePinkAlliance.core.math.geometry.Sphere;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
 import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
 import edu.wpi.first.math.trajectory.Trajectory;
