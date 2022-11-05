@@ -8,15 +8,16 @@ import com.ThePinkAlliance.core.joystick.Axis;
 import com.ThePinkAlliance.core.joystick.Joystick;
 import com.ThePinkAlliance.core.joystick.JoystickAxis;
 import com.ThePinkAlliance.core.limelight.Limelight;
-import com.ThePinkAlliance.core.math.geometry.Sphere;
 import com.ThePinkAlliance.core.pathweaver.PathChooser;
+import com.ThePinkAlliance.core.pathweaver.PathFactory;
 import com.ThePinkAlliance.core.selectable.SelectableTrajectory;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Drive;
-import frc.robot.commands.MotionProfileTest;
 import frc.robot.subsystems.Base;
 
 /**
@@ -54,15 +55,28 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-
     // Configure the dashboard for operators.
     configureDashboard();
   }
 
   public void configureDashboard() {
     m_pathChooser.registerDefault(trajectory);
+  }
+
+  /**
+   * This method will configure the robot for teleop when teleopInit is called.
+   */
+  public void configureTeleopInit() {
+    // Configure the button bindings
+    configureButtonBindings();
+  }
+
+  public void configureTestInit() {
+
+  }
+
+  public Command getTestCommand() {
+    return new InstantCommand();
   }
 
   /**
@@ -86,27 +100,23 @@ public class RobotContainer {
     // Resolves the selected command that will run in autonomous
     Trajectory trajectory = m_pathChooser.get();
 
-    return new MotionProfileTest();
-    // return new PathFactory(
-    // m_base.getKinematics(),
-    // () -> m_base.getPose(),
-    // Constants.X_GAINS,
-    // Constants.Y_GAINS,
-    // Constants.THETA_GAINS,
-    // Constants.MAX_VELOCITY_METERS_PER_SECOND,
-    // Constants.MAX_ACCELERATION_METERS_PER_SECOND
-    // )
-    // .buildController(
-    // trajectory,
-    // states -> {
-    // m_base.setStates(states);
-    // },
-    // m_base
-    // )
-    // .andThen(
-    // () -> {
-    // m_base.drive(new ChassisSpeeds());
-    // }
-    // );
+    return new PathFactory(
+        m_base.getKinematics(),
+        () -> m_base.getPose(),
+        Constants.X_GAINS,
+        Constants.Y_GAINS,
+        Constants.THETA_GAINS,
+        Constants.MAX_VELOCITY_METERS_PER_SECOND,
+        Constants.MAX_ACCELERATION_METERS_PER_SECOND)
+        .buildController(
+            trajectory,
+            states -> {
+              m_base.setStates(states);
+            },
+            m_base)
+        .andThen(
+            () -> {
+              m_base.drive(new ChassisSpeeds());
+            });
   }
 }

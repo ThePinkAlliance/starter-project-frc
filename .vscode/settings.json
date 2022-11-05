@@ -26,5 +26,5 @@
 		}
 	],
 	"java.test.defaultConfig": "WPIlibUnitTests",
-	"ros.distro": "noetic"
+	"editor.tabSize": 2
 }

@@ -70,7 +70,7 @@ public class Base extends SubsystemBase {
 
     this.states = kinematics.toSwerveModuleStates(new ChassisSpeeds());
 
-    this.configureMk4(Constants.gearRatio);
+    this.configureMk4(Constants.GEAR_RATIO);
     this.configurePods();
   }
 
