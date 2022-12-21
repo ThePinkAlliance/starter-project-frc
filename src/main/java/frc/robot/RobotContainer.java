@@ -45,7 +45,7 @@ public class RobotContainer {
   private final Base m_base = new Base();
 
   // Make sure to calibrate the limelight Crosshairs before using it.
-  private final Limelight m_limelight = new Limelight(33.3, 50);
+  private final LimelightWrapper m_limelight = new LimelightWrapper(33.3, 50);
 
   private final SelectableTrajectory trajectory = new SelectableTrajectory(
       "straight",
